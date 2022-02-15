@@ -10,10 +10,16 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
+- task: DownloadSecureFile@1
+  name: secureEnv
+  displayName: "Downloading secure file"
+  inputs:
+    secureFile: 'wallet-station-docs-1a24d107ddeb.txt'
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  docker run --rm \
+    --volume Build.SourcesDirectory/config/rclone:/config/rclone \
+    --volume Build.SourcesDirectory/root:/root \
+    --env-file=$(secureEnv.secureFilePath)
+    rclone/rclone \
+    copy --drive-shared-with-me -v /root gdrive:WalletStationDocs
+  displayName: 'rclone'
