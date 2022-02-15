@@ -25,7 +25,6 @@ steps:
       docker run --rm \
         --volume Build.SourcesDirectory/config/rclone:/config/rclone \
         --volume Build.SourcesDirectory/root:/root \
-        --env-file=$(secureEnv.secureFilePath) \
         --env RCLONE_DRIVE_SERVICE_ACCOUNT_CREDENTIALS="$DRIVE_SERVICE_ACCOUNT_CREDENTIALS" \
         rclone/rclone \
         copy --drive-shared-with-me -v /root gdrive:WalletStationDocs
