@@ -28,4 +28,4 @@ steps:
         --volume $(Build.SourcesDirectory)/root:/root \
         --env RCLONE_DRIVE_SERVICE_ACCOUNT_CREDENTIALS="$DRIVE_SERVICE_ACCOUNT_CREDENTIALS" \
         rclone/rclone \
-        ls gdrive:
+        copy --drive-shared-with-me -v /root gdrive:WalletStationDocs
