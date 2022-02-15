@@ -10,11 +10,6 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- task: DownloadSecureFile@1
-  name: secureEnv
-  displayName: "Downloading secure file"
-  inputs:
-    secureFile: 'wallet-station-docs-1a24d107ddeb.txt'
 - task: Bash@3
   displayName: 'rclone'
   env:
@@ -23,8 +18,8 @@ steps:
     targetType: 'inline'
     script: |
       docker run --rm \
-        --volume Build.SourcesDirectory/config/rclone:/config/rclone \
-        --volume Build.SourcesDirectory/root:/root \
+        --volume $(Build.SourcesDirectory)/config/rclone:/config/rclone \
+        --volume $(Build.SourcesDirectory)/root:/root \
         --env RCLONE_DRIVE_SERVICE_ACCOUNT_CREDENTIALS="$DRIVE_SERVICE_ACCOUNT_CREDENTIALS" \
         rclone/rclone \
         copy --drive-shared-with-me -v /root gdrive:WalletStationDocs
