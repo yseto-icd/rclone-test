@@ -17,6 +17,8 @@ steps:
     secureFile: 'wallet-station-docs-1a24d107ddeb.txt'
 - task: Bash@3
   displayName: 'rclone'
+  env:
+    DRIVE_SERVICE_ACCOUNT_CREDENTIALS: $(DRIVE_SERVICE_ACCOUNT_CREDENTIALS)
   inputs:
     targetType: 'inline'
     script: |
@@ -24,5 +26,6 @@ steps:
         --volume Build.SourcesDirectory/config/rclone:/config/rclone \
         --volume Build.SourcesDirectory/root:/root \
         --env-file=$(secureEnv.secureFilePath) \
+        --env RCLONE_DRIVE_SERVICE_ACCOUNT_CREDENTIALS="$DRIVE_SERVICE_ACCOUNT_CREDENTIALS" \
         rclone/rclone \
         copy --drive-shared-with-me -v /root gdrive:WalletStationDocs
