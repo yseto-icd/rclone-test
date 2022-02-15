@@ -15,11 +15,14 @@ steps:
   displayName: "Downloading secure file"
   inputs:
     secureFile: 'wallet-station-docs-1a24d107ddeb.txt'
-- script: |
-  docker run --rm \
-    --volume Build.SourcesDirectory/config/rclone:/config/rclone \
-    --volume Build.SourcesDirectory/root:/root \
-    --env-file=$(secureEnv.secureFilePath)
-    rclone/rclone \
-    copy --drive-shared-with-me -v /root gdrive:WalletStationDocs
+- task: Bash@3
   displayName: 'rclone'
+  inputs:
+    targetType: 'inline'
+    script: |
+      docker run --rm \
+        --volume Build.SourcesDirectory/config/rclone:/config/rclone \
+        --volume Build.SourcesDirectory/root:/root \
+        --env-file=$(secureEnv.secureFilePath) \
+        rclone/rclone \
+        copy --drive-shared-with-me -v /root gdrive:WalletStationDocs
