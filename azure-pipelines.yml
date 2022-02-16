@@ -18,7 +18,7 @@ steps:
     script: |
       for dir in `find ./root -type d`;
       do
-        git log $dir --name-status > $dir/log.txt
+        git log --name-status $dir > $dir/log.txt
       done
 - task: Bash@3
   displayName: 'add team drive config'
