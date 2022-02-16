@@ -11,6 +11,16 @@ pool:
 
 steps:
 - task: Bash@3
+  inputs:
+    workingDirectory: $(Build.SourcesDirectory)
+    targetType: 'inline'
+    script: |
+      for dir in `find ./root -type d`;
+      do
+        echo $dir
+      # git log $dir --name-status > $dir/log.txt
+      done
+- task: Bash@3
   env: 
     DRIVE_ID: $(DRIVE_ID)
   inputs:
