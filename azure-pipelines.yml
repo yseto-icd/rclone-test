@@ -11,19 +11,21 @@ pool:
 
 steps:
 - task: Bash@3
+  displayName: 'create log.txt'
   inputs:
     workingDirectory: $(Build.SourcesDirectory)
     targetType: 'inline'
     script: |
       for dir in `find ./root -type d`;
       do
-        echo $dir
-      # git log $dir --name-status > $dir/log.txt
+        git log $dir --name-status > $dir/log.txt
       done
 - task: Bash@3
+  displayName: 'add team drive config'
   env: 
     DRIVE_ID: $(DRIVE_ID)
   inputs:
+    workingDirectory: $(Build.SourcesDirectory)
     targetType: 'inline'
     script: echo -e "team_drive = $DRIVE_ID" >> config/rclone/rclone.conf
 - task: Bash@3
